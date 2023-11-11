@@ -1,0 +1,4 @@
+name: Roulette
+version: '${project.version}'
+main: me.maroon28.roulette.RoulettePlugin
+api-version: '1.20'
