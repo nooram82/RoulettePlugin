@@ -20,7 +20,7 @@ public class RouletteListener implements Listener {
     public void onRoulettePlace(BlockPlaceEvent event) {
         if (event.getBlockPlaced().getType() != Material.CHEST)
             return;
-        if (isRouletteChest(event.getItemInHand()))
+        if (!isRouletteChest(event.getItemInHand()))
             return;
         // Creates a roulette object and automatically builds it
         new Roulette(event.getBlockPlaced().getLocation());
