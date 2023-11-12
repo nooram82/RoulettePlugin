@@ -18,11 +18,38 @@ public class RouletteConfig extends OkaeriConfig {
         ItemUtils.setName(rouletteItem, ChatColor.GOLD +  "Roulette Chest");
         ItemUtils.setLore(rouletteItem, "", "Place down to build a roulette!", "");
     }
+
+    private String host = "";
+    private String database = "";
+    private String username = "";
+    private String password = "";
+    private int port = 3306;
+
     public int getTickDelay() {
         return tickDelay;
     }
 
     public ItemStack getRouletteItem() {
         return rouletteItem;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public String getDatabase() {
+        return database;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public int getPort() {
+        return port;
     }
 }
