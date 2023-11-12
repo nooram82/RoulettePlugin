@@ -11,7 +11,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import redempt.redlib.itemutils.ItemUtils;
 import redempt.redlib.multiblock.Structure;
 
 public class RouletteListener implements Listener {
@@ -22,8 +21,9 @@ public class RouletteListener implements Listener {
             return;
         if (!isRouletteChest(event.getItemInHand()))
             return;
-        // Creates a roulette object and automatically builds it
-        new Roulette(event.getBlockPlaced().getLocation());
+        ConfirmationGUI confirmationGUI = new ConfirmationGUI(event.getBlockPlaced().getLocation());
+        confirmationGUI.getGui().show(event.getPlayer());
+        event.setCancelled(true);
     }
 
     @EventHandler
