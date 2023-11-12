@@ -24,8 +24,7 @@ public class RouletteCommand implements CommandExecutor {
             return true;
         }
         if (sender instanceof Player player) {
-            ItemStack itemStack = new ItemStack(Material.CHEST);
-            ItemUtils.setName(itemStack, "Roulette Chest");
+            ItemStack itemStack = RoulettePlugin.getInstance().getRouletteConfig().getRouletteItem();
             ItemUtils.addPersistentTag(itemStack, new NamespacedKey(RoulettePlugin.getInstance(), "roulette-chest"), PersistentDataType.BOOLEAN, true);
             ItemUtils.give(player, itemStack, 1);
             player.sendMessage("Roulette chest successfully given!");

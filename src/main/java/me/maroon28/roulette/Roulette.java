@@ -48,12 +48,11 @@ public class Roulette {
     }
 
     public void startRoulette() {
-        int delayTicks = 5;
         int animationLength = relativeLocations.size();
         playAnimation();
 
         // Schedule a task to cancel the timer after all repetitions
-        Bukkit.getScheduler().runTaskLater(RoulettePlugin.getInstance(), this::endRoulette, ((long) animationLength * delayTicks));
+        Bukkit.getScheduler().runTaskLater(RoulettePlugin.getInstance(), this::endRoulette, ((long) animationLength * getTickDelay()));
     }
 
     private void endRoulette() {
@@ -63,7 +62,6 @@ public class Roulette {
     }
 
     private void playAnimation() {
-        int delayTicks = 5;
         int animationLength = relativeLocations.size();
 
         // Randomly determine the starting index
@@ -83,7 +81,7 @@ public class Roulette {
             Bukkit.getScheduler().runTaskLater(RoulettePlugin.getInstance(), () -> {
                 lightTemporarily(currentLamp);
                 playSound(Sound.BLOCK_NOTE_BLOCK_BANJO, pitch);
-            }, (long) i * delayTicks);
+            }, (long) i * getTickDelay());
         }
 
     }
@@ -119,6 +117,10 @@ public class Roulette {
             block.setBlockData(lightable);
         }, duration);
 
+    }
+
+    private int getTickDelay() {
+        return RoulettePlugin.getInstance().getRouletteConfig().getTickDelay();
     }
 
     private void playSound(Sound sound, float pitch) {
