@@ -4,6 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class RoulettePlugin extends JavaPlugin {
     private static RoulettePlugin PLUGIN;
+
     public RoulettePlugin() {
         PLUGIN = this;
     }

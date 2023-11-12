@@ -58,8 +58,6 @@ public class Roulette {
             Bukkit.getScheduler().cancelTask(taskId);
             endRoulette();
         }, (long) repetitions * animationLength * delayTicks);
-
-
     }
 
     private void endRoulette() {
@@ -139,5 +137,5 @@ public class Roulette {
                     '}';
         }
     }
-
 }
+
