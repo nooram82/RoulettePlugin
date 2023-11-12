@@ -16,8 +16,7 @@ public final class RoulettePlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(new RouletteListener(), this);
-        // the base roulette structure
-        saveResource("roulette-structure.dat", false);
+
     }
 
 }
