@@ -2,20 +2,25 @@ package me.maroon28.roulette;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import redempt.redlib.itemutils.ItemUtils;
 import redempt.redlib.multiblock.Structure;
 
 public class RouletteListener implements Listener {
 
     @EventHandler
     public void onRoulettePlace(BlockPlaceEvent event) {
-        if (event.getBlockPlaced().getType() != Material.DIAMOND_BLOCK)
+        if (event.getBlockPlaced().getType() != Material.CHEST)
+            return;
+        if (isRouletteChest(event.getItemInHand()))
             return;
         // Creates a roulette object and automatically builds it
         new Roulette(event.getBlockPlaced().getLocation());
@@ -44,6 +49,10 @@ public class RouletteListener implements Listener {
     @NotNull
     private Location getRouletteCenter(Block block) {
         return block.getLocation().getBlock().getRelative(BlockFace.DOWN, 1).getLocation();
+    }
+
+    private boolean isRouletteChest(ItemStack itemStack) {
+        return itemStack.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(RoulettePlugin.getInstance(), "roulette-chest"));
     }
 
 }
