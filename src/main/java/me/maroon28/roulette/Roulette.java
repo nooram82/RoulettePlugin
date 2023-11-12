@@ -9,6 +9,7 @@ import org.bukkit.block.data.Lightable;
 import redempt.redlib.multiblock.MultiBlockStructure;
 import redempt.redlib.multiblock.Structure;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -41,23 +42,18 @@ public class Roulette {
     }
 
     private Structure buildRoulette() {
-        var structure = ROULETTE_STRUCTURE.build(center, 4, 0, 4, getRandomRotation());
+        var structure = ROULETTE_STRUCTURE.build(center, 4, 0, 4);
         addButton(structure);
         return structure;
     }
 
     public void startRoulette() {
-        int repetitions = 2;
-        int delayTicks = 8;
+        int delayTicks = 5;
         int animationLength = relativeLocations.size();
+        playAnimation();
 
-        // Use runTaskTimer to repeat the animation
-        int taskId = Bukkit.getScheduler().runTaskTimer(RoulettePlugin.getInstance(), this::playAnimation, 0L, (long) animationLength * delayTicks).getTaskId();
         // Schedule a task to cancel the timer after all repetitions
-        Bukkit.getScheduler().runTaskLater(RoulettePlugin.getInstance(), () -> {
-            Bukkit.getScheduler().cancelTask(taskId);
-            endRoulette();
-        }, (long) repetitions * animationLength * delayTicks);
+        Bukkit.getScheduler().runTaskLater(RoulettePlugin.getInstance(), this::endRoulette, ((long) animationLength * delayTicks));
     }
 
     private void endRoulette() {
@@ -70,11 +66,20 @@ public class Roulette {
         int delayTicks = 5;
         int animationLength = relativeLocations.size();
 
+        // Randomly determine the starting index
+        int startIndex = new Random().nextInt(animationLength);
+
+        // Create a new list starting from the randomly chosen index
+        List<RelativeLocation> randomizedLocations = new ArrayList<>(relativeLocations.subList(startIndex, animationLength));
+        randomizedLocations.addAll(relativeLocations.subList(0, startIndex));
+
         for (int i = 0; i < animationLength; i++) {
-            RelativeLocation loc = relativeLocations.get(i);
+            RelativeLocation loc = randomizedLocations.get(i);
             Block currentLamp = getLamp(roulette, loc);
+
             // Start at 0.5 pitch and gradually increase on every light up.
             float pitch = 0.5F + (i * 0.1F);
+
             Bukkit.getScheduler().runTaskLater(RoulettePlugin.getInstance(), () -> {
                 lightTemporarily(currentLamp);
                 playSound(Sound.BLOCK_NOTE_BLOCK_BANJO, pitch);
@@ -114,14 +119,6 @@ public class Roulette {
             block.setBlockData(lightable);
         }, duration);
 
-    }
-
-    // Gets a random rotation for the roulette structure.
-    // Since this isn't actually noticeable, all it does is it randomizes the location where it starts and ends to an extent
-    // Generates a number between 0 - 3
-    public int getRandomRotation() {
-        Random random = new Random();
-        return random.nextInt(4);
     }
 
     private void playSound(Sound sound, float pitch) {
