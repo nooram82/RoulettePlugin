@@ -2,3 +2,7 @@ name: Roulette
 version: '${project.version}'
 main: me.maroon28.roulette.RoulettePlugin
 api-version: '1.20'
+commands:
+  roulette:
+    description: Gives the player a roulette
+    permission: roulette.get

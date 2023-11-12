@@ -16,7 +16,7 @@ public final class RoulettePlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(new RouletteListener(), this);
-
+        getCommand("roulette").setExecutor(new RouletteCommand());
     }
 
 }
